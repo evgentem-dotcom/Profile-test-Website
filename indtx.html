@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symphony of Comfort | Мягкие изголовья нового поколения</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c2c2c;
+            --accent: #a68a64;
+            --bg-light: #f9f8f6;
+            --text-muted: #666;
+            --transition: all 0.4s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background-color: #fff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+        }
+
+        section {
+            padding: 100px 10%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Header --- */
+        header {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&q=80&w=2071') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: var(--transition);
+            border: 1px solid var(--accent);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            border-color: #fff;
+        }
+
+        /* --- Concept Section --- */
+        .concept {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            background-color: var(--bg-light);
+        }
+
+        .concept-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+        }
+
+        .concept-text p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .concept-img {
+            width: 100%;
+            height: 500px;
+            background: url('https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&q=80&w=2070') center/cover;
+            box-shadow: 30px 30px 0px var(--accent);
+        }
+
+        /* --- Features (Functional) --- */
+        .features {
+            text-align: center;
+        }
+
+        .features h2 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            padding: 40px;
+            background: #fff;
+            border: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .feature-card h3 {
+            margin: 20px 0;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Applications (Space) --- */
+        .applications {
+            background-color: var(--primary);
+            color: #fff;
+        }
+
+        .app-item {
+            display: flex;
+            margin-bottom: 80px;
+            align-items: center;
+        }
+
+        .app-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .app-img {
+            flex: 1;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .app-text {
+            flex: 1;
+            padding: 0 60px;
+        }
+
+        .app-text h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        /* --- CTA Footer --- */
+        .final-cta {
+            text-align: center;
+            background-color: var(--bg-light);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        footer {
+            padding: 50px 0;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+            border-top: 1px solid #eee;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .concept, .app-item {
+                grid-template-columns: 1fr;
+                flex-direction: column !important;
+            }
+            .app-text {
+                padding: 40px 0 0;
+            }
+            section {
+                padding: 60px 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">The Pillow</div>
+        <nav>
+            <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.7rem;">Консультация</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Новая философия вашего пространства</h1>
+            <p>Эргономичные подушки-изголовья, созданные для тех, кто ценит эстетику отдыха и здоровье спины.</p>
+            <a href="#about" class="btn">Исследовать коллекцию</a>
+        </div>
+    </section>
+
+    <section id="about" class="concept">
+        <div class="concept-text">
+            <h2>Ваша кровать заслуживает большего</h2>
+            <p>Стандартные изголовья часто бывают либо слишком жесткими, либо чисто декоративными. Мы создали продукт, который объединяет архитектурную форму и безупречную мягкость.</p>
+            <p>Это не просто подушка. Это функциональный элемент интерьера, который превращает обычное спальное место в зону премиального комфорта.</p>
+        </div>
+        <div class="concept-img"></div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>Инженерия комфорта</h2>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3>Поддержка 360°</h3>
+                    <p>Анатомическая форма подушки обеспечивает правильную поддержку поясничного и шейного отделов при чтении или работе в постели.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Premium Ткани</h3>
+                    <p>Используем износостойкий велюр, рогожку и эко-лен с технологией Easy Clean. Приятно касаться, легко ухаживать.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Мобильный стиль</h3>
+                    <p>Система креплений позволяет использовать подушку как самостоятельное изголовье или обновлять существующее без покупки новой мебели.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="applications">
+        <div class="container">
+            <div class="app-item">
+                <div class="app-img" style="background-image: url('https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=2070');"></div>
+                <div class="app-text">
+                    <h3>Спальня</h3>
+                    <p>Создайте атмосферу пятизвездочного отеля. Идеально для утреннего кофе и вечернего чтения. Защищает стену от затирания и добавляет глубину интерьеру.</p>
+                </div>
+            </div>
+            <div class="app-item">
+                <div class="app-img" style="background-image: url confession('https://images.unsplash.com/photo-1567016432779-094069958ad5?auto=format&fit=crop&q=80&w=2080');"></div>
+                <div class="app-text">
+                    <h3>Зона отдыха</h3>
+                    <p>Трансформируйте подиумы, ниши или минималистичные диваны. Наши изделия адаптируются под любое пространство, создавая уют там, где его не было.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="container">
+            <h2>Готовы изменить свое пространство?</h2>
+            <p style="margin-bottom: 40px; color: var(--text-muted);">Закажите расчет по вашим размерам или выберите из готовой коллекции.</p>
+            <a href="#" class="btn">Получить коммерческое предложение</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 THE PILLOW STUDIO. Премиальный комфорт в каждой детали.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

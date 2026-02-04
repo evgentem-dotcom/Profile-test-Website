@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PillowPlace — мягкое изголовье / опора для спины</title>
+  <meta name="description" content="Премиальная подушка-изголовье для чтения, отдыха и работы полулёжа. Рогожка на флисовой основе. PillowPlace." />
+
+  <style>
+    :root{
+      /* Кремово-коричневая гамма */
+      --bg: #fbf6ef;
+      --bg2:#f2e7da;
+      --card:#ffffffcc;
+      --text:#2b1f17;
+      --muted:#6a5648;
+
+      --accent:#8b5a2b;     /* орех */
+      --accent2:#c79a6b;    /* карамель */
+
+      --line:#e6d4c3;
+      --shadow: 0 18px 45px rgba(43,31,23,.10);
+      --shadow2: 0 10px 30px rgba(43,31,23,.12);
+
+      --radius: 22px;
+      --radius2: 16px;
+      --max: 1120px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, #fff 0%, transparent 60%),
+        radial-gradient(1000px 700px at 90% 10%, rgba(199,154,107,.25) 0%, transparent 55%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 40%, var(--bg) 100%);
+    }
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{width:min(var(--max), calc(100% - 40px)); margin:0 auto}
+
+    /* Sticky header */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(251,246,239,.88), rgba(251,246,239,.65));
+      border-bottom:1px solid rgba(230,212,195,.65);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+
+    /* Brand */
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:700;
+      letter-spacing:.2px;
+      min-width: 210px;
+    }
+    .logoDot{
+      width:34px; height:34px; border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, #ffe9d1 0%, var(--accent2) 35%, var(--accent) 100%);
+      box-shadow: 0 10px 24px rgba(139,90,43,.25);
+      position:relative;
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .logoDot::after{
+      content:"";
+      position:absolute; inset:-20%;
+      background: conic-gradient(from 180deg, rgba(255,255,255,.0), rgba(255,255,255,.45), rgba(255,255,255,.0));
+      transform: rotate(25deg);
+      animation: sheen 6s linear infinite;
+    }
+    @keyframes sheen{
+      0%{transform: translateX(-40%) rotate(25deg)}
+      100%{transform: translateX(40%) rotate(25deg)}
+    }
+    .brand small{
+      display:block;
+      font-weight:520;
+      color:var(--muted);
+      margin-top:2px;
+      letter-spacing:0;
+    }
+
+    /* Desktop menu */
+    .menu{
+      display:flex; gap:18px; align-items:center;
+      font-weight:560;
+      color:var(--muted);
+    }
+    .menu a{
+      padding:8px 10px;
+      border-radius:12px;
+      transition: transform .18s ease, background .18s ease, color .18s ease;
+    }
+    .menu a:hover{
+      background: rgba(199,154,107,.16);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .navRight{display:flex; gap:10px; align-items:center}
+
+    /* Buttons */
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:11px 14px;
+      border-radius:14px;
+      border:1px solid rgba(139,90,43,.22);
+      background: rgba(255,255,255,.55);
+      box-shadow: 0 10px 25px rgba(43,31,23,.08);
+      cursor:pointer;
+      font-weight:700;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); box-shadow: var(--shadow2)}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--accent) 0%, #a66b36 55%, var(--accent2) 120%);
+      color:#fff;
+      border-color: rgba(255,255,255,.18);
+    }
+    .btn.primary:hover{transform: translateY(-2px) scale(1.01)}
+    .btn.ghost{background: rgba(255,255,255,.45);}
+
+    /* Burger */
+    .burger{
+      width:44px; height:44px;
+      border-radius:14px;
+      border:1px solid rgba(139,90,43,.18);
+      background: rgba(255,255,255,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      gap:5px;
+      flex-direction:column;
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .burger:hover{transform: translateY(-1px); box-shadow: var(--shadow2)}
+    .burger span{
+      width:18px; height:2px;
+      background: var(--text);
+      border-radius:5px;
+      opacity:.85;
+    }
+
+    /* Mobile menu dropdown */
+    .mobileMenu{
+      display:none;
+      padding: 0 0 14px;
+    }
+    .mobileMenu.open{display:block}
+    .mobileMenu a{
+      display:block;
+      padding:12px 10px;
+      border-radius:14px;
+      border:1px solid rgba(230,212,195,.75);
+      background: rgba(255,255,255,.52);
+      margin-top:10px;
+      color:var(--muted);
+      font-weight:700;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .mobileMenu a:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--shadow2);
+      color:var(--text)
+    }
+
+    /* Hero */
+    .hero{padding:48px 0 18px;}
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:26px;
+      align-items:center;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(230,212,195,.9);
+      background: rgba(255,255,255,.55);
+      color:var(--muted);
+      font-weight:600;
+      box-shadow: 0 10px 24px rgba(43,31,23,.06);
+    }
+    .pill b{color:var(--text)}
+
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(30px, 3.6vw, 52px);
+      line-height:1.06;
+      letter-spacing:-.6px;
+    }
+    .lead{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size: clamp(16px, 1.35vw, 18px);
+      line-height:1.55;
+      max-width: 56ch;
+    }
+    .heroActions{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+
+    .trustRow{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:18px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .trustItem{
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(255,255,255,.45);
+      border:1px solid rgba(230,212,195,.7);
+    }
+    .icon{
+      width:30px; height:30px; border-radius:12px;
+      background: rgba(199,154,107,.22);
+      display:grid; place-items:center;
+      color: var(--accent);
+      font-weight:900;
+      flex:0 0 auto;
+    }
+
+    /* Hero card */
+    .heroCard{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.45));
+      border:1px solid rgba(230,212,195,.8);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .heroCard::before{
+      content:"";
+      position:absolute; inset:-60%;
+      background: radial-gradient(circle at 30% 30%, rgba(199,154,107,.24), transparent 55%);
+      transform: rotate(12deg);
+    }
+    .heroCardInner{position:relative; padding:18px}
+
+    .heroVisual{
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid rgba(230,212,195,.9);
+      background: #fff;
+      box-shadow: 0 12px 30px rgba(43,31,23,.10);
+    }
+    .heroVisual img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+
+    .caption{
+      margin-top:12px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .badge{
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(230,212,195,.9);
+      background: rgba(255,255,255,.55);
+    }
+
+    /* Sections */
+    section{padding:54px 0}
+    .sectionHead{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:20px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size: clamp(22px, 2.2vw, 30px);
+      letter-spacing:-.3px;
+    }
+    .sectionHead p{
+      margin:0;
+      color:var(--muted);
+      max-width: 62ch;
+      line-height:1.55;
+    }
+
+    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+    .grid2{display:grid; grid-template-columns: repeat(2, 1fr); gap:14px}
+
+    .card{
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.42));
+      border:1px solid rgba(230,212,195,.85);
+      box-shadow: 0 10px 25px rgba(43,31,23,.07);
+      padding:16px;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .card::after{
+      content:"";
+      position:absolute; inset:-50%;
+      background: radial-gradient(circle at 30% 20%, rgba(199,154,107,.18), transparent 55%);
+      transform: rotate(18deg);
+      opacity:0;
+      transition: opacity .25s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: rgba(199,154,107,.55);
+    }
+    .card:hover::after{opacity:1}
+    .card > *{position:relative}
+    .card h3{margin:0 0 8px; font-size:16px}
+    .card p{margin:0; color:var(--muted); line-height:1.55}
+
+    .list{display:grid; gap:10px; margin:0; padding:0; list-style:none;}
+    .li{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:12px 12px;
+      border-radius:14px;
+      background: rgba(255,255,255,.42);
+      border:1px solid rgba(230,212,195,.7);
+    }
+    .check{
+      width:24px; height:24px; border-radius:10px;
+      background: rgba(139,90,43,.16);
+      display:grid; place-items:center;
+      color: var(--accent);
+      flex:0 0 auto;
+      font-weight:900;
+    }
+
+    /* Gallery blocks (без сложных fallback-скриптов) */
+    .gallery{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    .ph{
+      border-radius: var(--radius);
+      border:1px solid rgba(230,212,195,.85);
+      background: rgba(255,255,255,.55);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      min-height: 260px;
+      position:relative;
+    }
+    .ph img{width:100%; height:100%; object-fit:cover}
+    .phHint{
+      position:absolute; inset:auto 14px 14px 14px;
+      background: rgba(251,246,239,.74);
+      border:1px solid rgba(230,212,195,.9);
+      border-radius: 16px;
+      padding:10px 12px;
+      color:var(--muted);
+      font-size:13px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* FAQ */
+    details{
+      border-radius: 16px;
+      border:1px solid rgba(230,212,195,.85);
+      background: rgba(255,255,255,.50);
+      padding:12px 14px;
+      box-shadow: 0 10px 25px rgba(43,31,23,.05);
+    }
+    summary{
+      cursor:pointer;
+      font-weight:700;
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+    details p{margin:10px 0 0; color:var(--muted); line-height:1.55}
+
+    /* Footer */
+    footer{
+      padding:26px 0 34px;
+      border-top:1px solid rgba(230,212,195,.8);
+      color:var(--muted);
+    }
+    .foot{
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center;
+    }
+    .mini{font-size:13px}
+
+    /* Reveal animation */
+    .reveal{
+      opacity:0;
+      transform: translateY(12px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .reveal.in{opacity:1; transform: translateY(0);}
+
+    /* Helpers */
+    .sep{height:1px; background: rgba(230,212,195,.85); margin:16px 0}
+    .note{font-size:13px; color:var(--muted)}
+
+    /* Mobile */
+    @media (max-width: 920px){
+      .heroGrid{grid-template-columns: 1fr}
+      .gallery{grid-template-columns: 1fr}
+      .grid3{grid-template-columns: 1fr}
+      .grid2{grid-template-columns: 1fr}
+      .menu{display:none}
+      .burger{display:flex}
+      .brand{min-width:auto}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sticky Nav -->
+  <header class="topbar">
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#top" aria-label="PillowPlace">
+          <div class="logoDot" aria-hidden="true"></div>
+          <div>
+            PillowPlace
+            <small>мягкое изголовье • опора для спины</small>
+          </div>
+        </a>
+
+        <nav class="menu" aria-label="Навигация">
+          <a href="#about">О продукте</a>
+          <a href="#benefits">Преимущества</a>
+          <a href="#use">Применение</a>
+          <a href="#materials">Материалы</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+
+        <div class="navRight">
+          <a class="btn ghost" href="#gallery">Фото</a>
+          <a class="btn primary" href="#buy">Выбрать</a>
+          <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="mobileMenu" id="mobileMenu" aria-label="Мобильное меню">
+        <a href="#about">О продукте</a>
+        <a href="#benefits">Преимущества</a>
+        <a href="#use">Применение</a>
+        <a href="#materials">Материалы</a>
+        <a href="#faq">FAQ</a>
+        <a href="#buy">Выбрать</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="top" class="hero">
+    <div class="container">
+      <div class="heroGrid">
+        <div class="reveal">
+          <div class="pill"><b>Премиум-комфорт</b> • рогожка на флисовой основе • кремово-коричневая эстетика</div>
+          <h1>Мягкое изголовье, которое превращает отдых в привычку</h1>
+          <p class="lead">
+            PillowPlace — это опора для спины и плеч, чтобы удобно читать, смотреть кино или работать полулёжа.
+            Внешне — как интерьерный элемент: аккуратно, тепло и по-домашнему.
+          </p>
+
+          <div class="heroActions">
+            <a class="btn primary" href="#buy">Выбрать модель</a>
+            <a class="btn" href="#benefits">Смотреть преимущества</a>
+          </div>
+
+          <div class="trustRow">
+            <div class="trustItem"><div class="icon">✓</div><div>Продуманная форма<br><span class="note">держит комфортный наклон</span></div></div>
+            <div class="trustItem"><div class="icon">◎</div><div>Тактильная ткань<br><span class="note">мягкая рогожка + флис</span></div></div>
+            <div class="trustItem"><div class="icon">★</div><div>Премиальный вид<br><span class="note">вписывается в интерьер</span></div></div>
+          </div>
+        </div>
+
+        <div class="heroCard reveal">
+          <div class="heroCardInner">
+            <div class="heroVisual">
+              <!-- ВАЖНО:
+                   1) положите рядом с HTML файл картинки
+                   2) переименуйте "орех1.png" -> "oreh1.png" (латиница) -->
+              <img src="oreh1.png" alt="Подушка-изголовье PillowPlace">
+            </div>
+
+            <div class="caption">
+              <span class="badge">Цвет: орех / кремово-коричневый</span>
+              <span class="badge">Сценарии: спальня • диван</span>
+            </div>
+
+            <div class="sep"></div>
+            <div class="note">
+              Если картинка не видна — проверь, что файл рядом с HTML и называется <b>oreh1.png</b>.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="sectionHead">
+        <div>
+          <h2 class="reveal">Что это за продукт</h2>
+          <p class="reveal">
+            Подушка-изголовье для спины: создаёт устойчивую опору и делает полулежачую позу естественной.
+            Вместо “пирамиды” из обычных подушек — одно аккуратное решение.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="card reveal">
+          <h3>Комфортный наклон</h3>
+          <p>Поддерживает корпус и плечи, когда хочется полулежать — читать, отдыхать, смотреть кино.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Интерьерный вид</h3>
+          <p>Фактура рогожки выглядит спокойно и премиально. Тёплый оттенок “собирает” пространство.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Удобство в мелочах</h3>
+          <p>Карман для телефона — всё под рукой. Никакой суеты: просто устроились и расслабились.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section id="benefits">
+    <div class="container">
+      <div class="sectionHead">
+        <div>
+          <h2 class="reveal">Преимущества</h2>
+          <p class="reveal">Коротко и по делу — то, за что продукт любят каждый день.</p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card reveal">
+          <h3>Почему удобнее, чем обычные подушки</h3>
+          <ul class="list">
+            <li class="li"><span class="check">✓</span><div><b>Держит форму</b><div class="note">не нужно поправлять “пирамиду”</div></div></li>
+            <li class="li"><span class="check">✓</span><div><b>Опора для спины</b><div class="note">комфортно в полулёжа</div></div></li>
+            <li class="li"><span class="check">✓</span><div><b>Аккуратная посадка</b><div class="note">поддержка плеч и корпуса</div></div></li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <h3>Премиальная подача</h3>
+          <ul class="list">
+            <li class="li"><span class="check">✓</span><div><b>Тактильная рогожка</b><div class="note">мягкая, уютная, “тёплая”</div></div></li>
+            <li class="li"><span class="check">✓</span><div><b>Флисовая основа</b><div class="note">добавляет мягкость и комфорт</div></div></li>
+            <li class="li"><span class="check">✓</span><div><b>Детали</b><div class="note">ровные линии, аккуратный пошив</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section id="use">
+    <div class="container">
+      <div class="sectionHead">
+        <div>
+          <h2 class="reveal">Где использовать</h2>
+          <p class="reveal">Три основных сценария — выбирайте свой “режим” дома.</p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="card reveal">
+          <h3>Спальня</h3>
+          <p>Чтение, утренний кофе, спокойный вечер. Комфортная поза, когда хочется полулежать.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Диван / гостиная</h3>
+          <p>Фильм, беседа, ноутбук. Опора помогает устроиться удобно и поддерживать спину.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Личное “место для себя”</h3>
+          <p>Плед, мягкий свет, тишина. Пространство становится собранным и уютным.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATERIALS -->
+  <section id="materials">
+    <div class="container">
+      <div class="sectionHead">
+        <div>
+          <h2 class="reveal">Материалы</h2>
+          <p class="reveal">Тактильность и внешний вид — ключ к премиальному ощущению.</p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card reveal">
+          <h3>Мягкая рогожка</h3>
+          <p>Ткань с выразимой фактурой, которая выглядит “дорого” и спокойно, без лишнего блеска.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Флис в основе</h3>
+          <p>Добавляет мягкость и уютный контакт. Отлично подходит для ежедневного отдыха.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="container">
+      <div class="sectionHead">
+        <div>
+          <h2 class="reveal">Фото</h2>
+          <p class="reveal">Здесь можно поставить lifestyle-кадр и макро ткани. Пока стоят “пустые” блоки-плейсхолдеры.</p>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <div class="ph reveal">
+          <!-- Замените на свой файл (например: scene.jpg). Если файла нет — блок останется красивым. -->
+          <!-- <img src="scene.jpg" alt="Lifestyle фото"> -->
+          <div class="phHint">Lifestyle: кровать/диван • мягкий свет • тёплая сцена</div>
+        </div>
+
+        <div class="ph reveal">
+          <!-- Замените на макро ткани (например: fabric.jpg). -->
+          <!-- <img src="fabric.jpg" alt="Макро ткани"> -->
+          <div class="phHint">Макро ткани: рогожка + флис (ощущение премиума)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUY / CTA -->
+  <section id="buy">
+    <div class="container">
+      <div class="sectionHead">
+        <div>
+          <h2 class="reveal">Выбор и покупка</h2>
+          <p class="reveal">Поставь сюда ссылку на сайт/маркетплейс/мессенджер — будет готовый продающий финал.</p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card reveal">
+          <h3>Что вы получите</h3>
+          <ul class="list">
+            <li class="li"><span class="check">✓</span><div><b>Комфортное изголовье</b><div class="note">для чтения и отдыха</div></div></li>
+            <li class="li"><span class="check">✓</span><div><b>Премиальная тактильность</b><div class="note">мягкая рогожка на флисе</div></div></li>
+            <li class="li"><span class="check">✓</span><div><b>Удобство</b><div class="note">телефон рядом — всё под рукой</div></div></li>
+          </ul>
+          <div class="sep"></div>
+          <div class="heroActions">
+            <a class="btn primary" href="#" onclick="alert('Поставь сюда ссылку на покупку (сайт/Ozon/WB/WhatsApp)'); return false;">Купить сейчас</a>
+            <a class="btn" href="#faq">Вопросы</a>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <h3>Мини-коммерческое предложение</h3>
+          <p>
+            PillowPlace — премиальная опора для спины, которая создаёт новое пространство дома:
+            комфортный наклон, эстетичный вид и ежедневное удовольствие от отдыха.
+          </p>
+          <div class="sep"></div>
+          <p class="note">
+            Для усиления: добавь “размер/вариант”, “доставка”, “гарантия/возврат”, “подарочная упаковка” (если есть).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="sectionHead">
+        <div>
+          <h2 class="reveal">FAQ</h2>
+          <p class="reveal">Снятие типовых вопросов перед покупкой.</p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <details class="reveal">
+          <summary>Подойдёт ли для кровати и дивана?</summary>
+          <p>Да. Это универсальная опора: в спальне — для чтения/отдыха, на диване — для комфортной посадки и полулёжа.</p>
+        </details>
+
+        <details class="reveal">
+          <summary>Чем лучше обычных подушек?</summary>
+          <p>Обычные подушки часто съезжают и требуют “пирамиды”. Здесь форма создана как опора для спины — удобно и аккуратно.</p>
+        </details>
+
+        <details class="reveal">
+          <summary>Ткань приятная и “тёплая”?</summary>
+          <p>Да. Мягкая рогожка с флисовой основой даёт уютный контакт и выглядит премиально.</p>
+        </details>
+
+        <details class="reveal">
+          <summary>Как ухаживать?</summary>
+          <p>Добавь сюда свои точные инструкции по уходу (например: чехол/деликатная чистка и т. п.).</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="foot">
+        <div class="brand" aria-label="PillowPlace footer">
+          <div class="logoDot" aria-hidden="true"></div>
+          <div>
+            PillowPlace
+            <small class="mini">Премиум-комфорт • кремово-коричневая эстетика</small>
+          </div>
+        </div>
+        <div class="mini">© <span id="year"></span> • Сделано с заботой о домашнем комфорте</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Год
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Бургер-меню
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    burger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(open));
+    });
+
+    // Закрытие меню при клике по ссылке
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Reveal-анимация появления блоков при прокрутке
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('in');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
