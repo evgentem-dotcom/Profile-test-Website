@@ -15,6 +15,17 @@
             --shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.08);
             --shadow-card: 0 18px 40px rgba(0, 0, 0, 0.06);
             --radius-lg: 24px;
+            --hero-day: url('пробашок1.png');
+            --hero-night: url('freepik__use-two-reference-images1-scenemodel-reference-the__39531.png');
+            --glow-color: rgba(255, 196, 120, 0.55);
+            --hero-overlay: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.1));
+        }
+
+        [data-theme="dark"] {
+            --primary: #f4f1ec;
+            --bg-light: #1d1c1a;
+            --text-muted: #bdb7ad;
+            --hero-overlay: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.25));
         }
 
         * {
@@ -29,6 +40,10 @@
             color: var(--primary);
             background-color: #fff;
             overflow-x: hidden;
+        }
+
+        [data-theme="dark"] body {
+            background-color: #141312;
         }
 
         h1, h2, h3 {
@@ -70,6 +85,15 @@
             box-shadow: var(--shadow-soft);
         }
 
+        [data-theme="dark"] header.site-header {
+            background: rgba(20, 19, 18, 0.35);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        [data-theme="dark"] header.site-header.header-scrolled {
+            background: rgba(20, 19, 18, 0.92);
+        }
+
         .logo {
             font-family: 'Playfair Display', serif;
             font-size: 1.5rem;
@@ -77,13 +101,99 @@
             text-transform: uppercase;
         }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-labels {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .theme-labels span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .theme-toggle {
+            width: 54px;
+            height: 28px;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            background: rgba(255, 255, 255, 0.6);
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle::after {
+            content: "";
+            position: absolute;
+            top: 3px;
+            left: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] .theme-toggle::after {
+            transform: translateX(24px);
+            background: #f2e7d3;
+        }
+
+        [data-theme="dark"] .theme-labels {
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .photo-toggle {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(0, 0, 0, 0.45);
+            color: #fff;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            z-index: 3;
+            transition: var(--transition);
+        }
+
+        .photo-toggle span {
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        [data-theme="light"] .photo-toggle .is-day,
+        [data-theme="dark"] .photo-toggle .is-night {
+            opacity: 1;
+        }
+
         /* --- Hero Section --- */
         .hero {
             height: 100vh;
-            background-image: url('пробашок1.png');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,20 +201,95 @@
             color: #fff;
             position: relative;
             overflow: hidden;
+            background-color: #111;
+        }
+
+        .hero-media {
+            position: absolute;
+            inset: 0;
+            background-position: center;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+            transform: scale(1.05);
             animation: heroZoom 18s ease-in-out infinite;
+            will-change: opacity;
+        }
+
+        .hero-media.day {
+            background-image: var(--hero-day);
+            opacity: 1;
+        }
+
+        .hero-media.night {
+            background-image: var(--hero-night);
+            filter: brightness(0.9) saturate(1.08);
+        }
+
+        [data-theme="dark"] .hero-media.day {
+            opacity: 0;
+        }
+
+        [data-theme="dark"] .hero-media.night {
+            opacity: 1;
         }
 
         .hero::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.2));
-            z-index: 0;
+            background: var(--hero-overlay);
+            z-index: 1;
+        }
+
+        .hero-glow {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            transition-delay: 150ms;
+            filter: blur(12px);
+            mix-blend-mode: screen;
+        }
+
+        .hero-glow::before,
+        .hero-glow::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, var(--glow-color) 0%, rgba(255, 196, 120, 0) 70%);
+            opacity: 0.9;
+        }
+
+        .hero-glow::before {
+            top: 22%;
+            left: 18%;
+        }
+
+        .hero-glow::after {
+            top: 38%;
+            right: 16%;
+        }
+
+        .hero-glow .glow-third {
+            position: absolute;
+            bottom: 18%;
+            left: 52%;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(255, 196, 120, 0.45) 0%, rgba(255, 196, 120, 0) 70%);
+        }
+
+        [data-theme="dark"] .hero-glow {
+            opacity: 1;
         }
 
         .hero-content {
             position: relative;
-            z-index: 1;
+            z-index: 3;
         }
 
         .hero-content h1 {
@@ -222,17 +407,95 @@
             align-items: center;
         }
 
+        .app-media-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+        }
+
         .app-item:nth-child(even) {
             flex-direction: row-reverse;
         }
 
-        .app-img {
-            flex: 1;
-            height: 400px;
-            background-size: cover;
-            background-position: center;
+        .theme-photo {
+            position: relative;
+            height: 360px;
             border-radius: var(--radius-lg);
+            overflow: hidden;
             box-shadow: var(--shadow-card);
+            background: #141312;
+        }
+
+        .theme-photo .photo-layer {
+            position: absolute;
+            inset: 0;
+            background-position: center;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+            will-change: opacity;
+        }
+
+        .theme-photo .photo-layer.day {
+            background-image: var(--photo-day);
+            opacity: 1;
+        }
+
+        .theme-photo .photo-layer.night {
+            background-image: var(--photo-night);
+            filter: brightness(0.78) saturate(1.08);
+        }
+
+        [data-theme="dark"] .theme-photo .photo-layer.day {
+            opacity: 0;
+        }
+
+        [data-theme="dark"] .theme-photo .photo-layer.night {
+            opacity: 1;
+        }
+
+        .theme-photo::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--hero-overlay);
+            z-index: 1;
+        }
+
+        .photo-glow {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            transition-delay: 150ms;
+            filter: blur(10px);
+            mix-blend-mode: screen;
+        }
+
+        .photo-glow::before,
+        .photo-glow::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, var(--glow-color) 0%, rgba(255, 196, 120, 0) 70%);
+            opacity: 0.85;
+        }
+
+        .photo-glow::before {
+            top: 18%;
+            left: 16%;
+        }
+
+        .photo-glow::after {
+            bottom: 20%;
+            right: 14%;
+        }
+
+        [data-theme="dark"] .photo-glow {
+            opacity: 1;
         }
 
         .app-text {
@@ -294,10 +557,19 @@
 
         @keyframes heroZoom {
             0%, 100% {
-                background-size: 105%;
+                transform: scale(1.05);
             }
             50% {
-                background-size: 112%;
+                transform: scale(1.12);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-media,
+            .hero-glow,
+            .reveal {
+                transition: none !important;
+                animation: none !important;
             }
         }
 
@@ -345,12 +617,24 @@
 
     <header class="site-header">
         <div class="logo">The Pillow</div>
-        <nav>
-            <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.7rem;">Консультация</a>
-        </nav>
+        <div class="header-actions">
+            <div class="theme-labels" aria-hidden="true">
+                <span>☀ День</span>
+                <button class="theme-toggle" type="button" data-theme-toggle aria-label="Переключить тему"></button>
+                <span>🌙 Вечер</span>
+            </div>
+            <nav>
+                <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.7rem;">Консультация</a>
+            </nav>
+        </div>
     </header>
 
     <section class="hero">
+        <div class="hero-media day" aria-hidden="true"></div>
+        <div class="hero-media night" aria-hidden="true"></div>
+        <div class="hero-glow" aria-hidden="true">
+            <span class="glow-third"></span>
+        </div>
         <div class="hero-content reveal">
             <h1>Новая философия вашего пространства</h1>
             <p>Эргономичные подушки-изголовья, созданные для тех, кто ценит эстетику отдыха и здоровье спины.</p>
@@ -390,7 +674,26 @@
     <section class="applications reveal">
         <div class="container">
             <div class="app-item">
-                <div class="app-img" style="background-image: url('freepik__use-two-reference-images1-scenemodel-reference-the__39531.png');"></div>
+                <div class="app-media-grid">
+                    <div class="theme-photo" style="--photo-day: url('freepik__use-two-reference-images1-scenemodel-reference-the__39531.png'); --photo-night: url('пробашок1.png');">
+                        <div class="photo-layer day" aria-hidden="true"></div>
+                        <div class="photo-layer night" aria-hidden="true"></div>
+                        <div class="photo-glow" aria-hidden="true"></div>
+                        <button class="photo-toggle" type="button" data-theme-toggle aria-label="Переключить тему для фото">
+                            <span class="is-day">☀ День</span>
+                            <span class="is-night">🌙 Вечер</span>
+                        </button>
+                    </div>
+                    <div class="theme-photo" style="--photo-day: url('q15.png'); --photo-night: url('q15.png');">
+                        <div class="photo-layer day" aria-hidden="true"></div>
+                        <div class="photo-layer night" aria-hidden="true"></div>
+                        <div class="photo-glow" aria-hidden="true"></div>
+                        <button class="photo-toggle" type="button" data-theme-toggle aria-label="Переключить тему для фото">
+                            <span class="is-day">☀ День</span>
+                            <span class="is-night">🌙 Вечер</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="app-text">
                     <h3>Спальня</h3>
                     <p>Создайте атмосферу пятизвездочного отеля. Идеально для утреннего кофе и вечернего чтения. Защищает стену от затирания и добавляет глубину интерьеру.</p>
@@ -470,6 +773,27 @@
         );
 
         document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+        const themeToggles = document.querySelectorAll('[data-theme-toggle]');
+        const root = document.documentElement;
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        const applyTheme = (theme) => {
+            root.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeToggles.forEach((toggle) => toggle.setAttribute('aria-pressed', theme === 'dark'));
+        };
+
+        const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
+        applyTheme(initialTheme);
+
+        themeToggles.forEach((toggle) => {
+            toggle.addEventListener('click', () => {
+                const isDark = root.getAttribute('data-theme') === 'dark';
+                applyTheme(isDark ? 'light' : 'dark');
+            });
+        });
     </script>
 
 </body>
