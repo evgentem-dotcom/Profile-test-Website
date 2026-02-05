@@ -412,6 +412,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 24px;
+            width: 100%;
         }
 
         .app-item:nth-child(even) {
@@ -425,6 +426,7 @@
             overflow: hidden;
             box-shadow: var(--shadow-card);
             background: #141312;
+            min-width: 0;
         }
 
         .theme-photo .photo-layer {
@@ -601,6 +603,12 @@
             .app-text {
                 padding: 40px 0 0;
             }
+            .app-media-grid {
+                grid-template-columns: 1fr;
+            }
+            .theme-photo {
+                height: 260px;
+            }
             section {
                 padding: 60px 5%;
             }
@@ -616,7 +624,7 @@
 <body>
 
     <header class="site-header">
-        <div class="logo">The Pillow</div>
+        <div class="logo">PillowPlace</div>
         <div class="header-actions">
             <div class="theme-labels" aria-hidden="true">
                 <span>☀ День</span>
