@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
+            color-scheme: light dark;
             --primary: #2c2c2c;
             --accent: #a68a64;
             --bg-light: #f9f8f6;
@@ -107,88 +108,75 @@
             gap: 16px;
         }
 
-        .theme-labels {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .response-badge {
             font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.6px;
             color: var(--text-muted);
+            border: 1px solid rgba(166, 138, 100, 0.4);
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(8px);
         }
 
-        .theme-labels span {
+        [data-theme="dark"] .response-badge {
+            color: #d8cfbf;
+            background: rgba(24, 22, 20, 0.65);
+            border-color: rgba(166, 138, 100, 0.55);
+        }
+
+        .theme-toggle-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-        }
-
-        .theme-toggle {
-            width: 54px;
-            height: 28px;
+            gap: 10px;
+            padding: 8px 12px;
             border-radius: 999px;
             border: 1px solid rgba(0, 0, 0, 0.12);
             background: rgba(255, 255, 255, 0.6);
-            position: relative;
+            color: var(--primary);
             cursor: pointer;
             transition: var(--transition);
         }
 
-        .theme-toggle::after {
+        .theme-toggle-btn .dot {
+            width: 42px;
+            height: 24px;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            position: relative;
+        }
+
+        .theme-toggle-btn .dot::after {
             content: "";
             position: absolute;
-            top: 3px;
-            left: 4px;
-            width: 20px;
-            height: 20px;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: #fff;
+            background: currentColor;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
         }
 
-        [data-theme="dark"] .theme-toggle {
+        [data-theme="dark"] .theme-toggle-btn {
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.2);
+            color: #f2f3f5;
         }
 
-        [data-theme="dark"] .theme-toggle::after {
-            transform: translateX(24px);
-            background: #f2e7d3;
+        [data-theme="dark"] .theme-toggle-btn .dot {
+            border-color: rgba(255, 255, 255, 0.24);
         }
 
-        [data-theme="dark"] .theme-labels {
-            color: rgba(255, 255, 255, 0.72);
+        [data-theme="dark"] .theme-toggle-btn .dot::after {
+            transform: translateX(18px);
         }
 
-        .photo-toggle {
-            position: absolute;
-            bottom: 16px;
-            right: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            background: rgba(0, 0, 0, 0.45);
-            color: #fff;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            z-index: 3;
-            transition: var(--transition);
-        }
-
-        .photo-toggle span {
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-
-        [data-theme="light"] .photo-toggle .is-day,
-        [data-theme="dark"] .photo-toggle .is-night {
-            opacity: 1;
+        .theme-icon {
+            width: 1.2em;
+            text-align: center;
+            font-size: 1.1rem;
         }
 
         /* --- Hero Section --- */
@@ -306,6 +294,14 @@
             margin: 0 auto 30px;
         }
 
+        .hero-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
         .btn {
             display: inline-block;
             padding: 15px 40px;
@@ -326,6 +322,82 @@
             border-color: #fff;
             transform: translateY(-2px);
             box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.65);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.26);
+            border-color: rgba(255, 255, 255, 0.85);
+        }
+
+        .btn:focus-visible,
+        .theme-toggle-btn:focus-visible,
+        .photo-local-toggle:focus-visible,
+        .faq-item summary:focus-visible,
+        .floating-contact:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .section-divider {
+            border: 0;
+            height: 1px;
+            margin: 0;
+            background: linear-gradient(to right, transparent 0%, rgba(166, 138, 100, 0.4) 48%, transparent 100%);
+        }
+
+        [data-theme="dark"] .section-divider {
+            background: linear-gradient(to right, transparent 0%, rgba(214, 191, 160, 0.3) 48%, transparent 100%);
+        }
+
+        .trust-strip {
+            background: #fff;
+            padding: 42px 10%;
+        }
+
+        .trust-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(160px, 1fr));
+            gap: 16px;
+        }
+
+        .trust-item {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .trust-item strong {
+            display: block;
+            font-size: 1.8rem;
+            line-height: 1.1;
+        }
+
+        .trust-item span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        [data-theme="dark"] .trust-strip {
+            background: #141312;
+        }
+
+        [data-theme="dark"] .trust-item {
+            background: #242220;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .trust-item span {
+            color: #c8c0b5;
         }
 
         /* --- Concept Section --- */
@@ -355,6 +427,11 @@
             border-radius: var(--radius-lg);
         }
 
+        .theme-photo--concept {
+            height: 500px;
+            box-shadow: 30px 30px 0px var(--accent);
+        }
+
         /* --- Features (Functional) --- */
         .features {
             text-align: center;
@@ -379,6 +456,12 @@
             border-radius: 18px;
         }
 
+        [data-theme="dark"] .feature-card {
+            background: #252320;
+            border-color: rgba(255, 255, 255, 0.12);
+            color: #f1ede7;
+        }
+
         .feature-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--shadow-card);
@@ -395,10 +478,47 @@
             color: var(--text-muted);
         }
 
+        [data-theme="dark"] .feature-card p {
+            color: #d1c9bd;
+        }
+
+        .stagger .feature-card,
+        .stagger .materials-card,
+        .stagger .trust-item {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+
+        .stagger.is-visible .feature-card,
+        .stagger.is-visible .materials-card,
+        .stagger.is-visible .trust-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger.is-visible .feature-card:nth-child(2),
+        .stagger.is-visible .materials-card:nth-child(2),
+        .stagger.is-visible .trust-item:nth-child(2) { transition-delay: .08s; }
+        .stagger.is-visible .feature-card:nth-child(3),
+        .stagger.is-visible .materials-card:nth-child(3),
+        .stagger.is-visible .trust-item:nth-child(3) { transition-delay: .16s; }
+        .stagger.is-visible .feature-card:nth-child(4),
+        .stagger.is-visible .materials-card:nth-child(4),
+        .stagger.is-visible .trust-item:nth-child(4) { transition-delay: .24s; }
+
         /* --- Applications (Space) --- */
         .applications {
             background-color: var(--primary);
             color: #fff;
+        }
+
+        [data-theme="dark"] .applications {
+            color: #2a2927;
+        }
+
+        [data-theme="dark"] .applications .app-text h3 {
+            color: #7c6246;
         }
 
         .app-item {
@@ -429,75 +549,101 @@
             min-width: 0;
         }
 
-        .theme-photo .photo-layer {
-            position: absolute;
-            inset: 0;
-            background-position: center;
-            background-size: cover;
-            opacity: 0;
-            transition: opacity 0.7s ease-in-out;
-            will-change: opacity;
-        }
-
-        .theme-photo .photo-layer.day {
-            background-image: var(--photo-day);
-            opacity: 1;
-        }
-
-        .theme-photo .photo-layer.night {
-            background-image: var(--photo-night);
-            filter: brightness(0.78) saturate(1.08);
-        }
-
-        [data-theme="dark"] .theme-photo .photo-layer.day {
-            opacity: 0;
-        }
-
-        [data-theme="dark"] .theme-photo .photo-layer.night {
-            opacity: 1;
-        }
-
         .theme-photo::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: var(--hero-overlay);
+            background:
+                radial-gradient(120% 80% at 75% 8%, rgba(255, 196, 120, 0.35) 0%, rgba(255, 196, 120, 0) 56%),
+                linear-gradient(to bottom, rgba(22, 28, 46, 0.08) 8%, rgba(10, 12, 20, 0.5) 100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
             z-index: 1;
         }
 
-        .photo-glow {
+        .theme-photo img {
             position: absolute;
             inset: 0;
-            z-index: 2;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            transition-delay: 150ms;
-            filter: blur(10px);
-            mix-blend-mode: screen;
+            transition: opacity 0.35s ease;
+            will-change: opacity;
         }
 
-        .photo-glow::before,
-        .photo-glow::after {
+        .theme-photo img.light {
+            opacity: 1;
+        }
+
+        .theme-photo img.dark {
+            filter: brightness(0.62) saturate(0.9) hue-rotate(-12deg) contrast(1.02);
+        }
+
+        [data-theme="dark"] .theme-photo:not(.use-local-theme) img.light {
+            opacity: 0;
+        }
+
+        [data-theme="dark"] .theme-photo:not(.use-local-theme) img.dark {
+            opacity: 1;
+        }
+
+        [data-theme="dark"] .theme-photo:not(.use-local-theme)::after {
+            opacity: 1;
+        }
+
+        .theme-photo.use-local-theme.is-night img.light {
+            opacity: 0;
+        }
+
+        .theme-photo.use-local-theme.is-night img.dark {
+            opacity: 1;
+        }
+
+        .theme-photo.use-local-theme.is-night::after {
+            opacity: 1;
+        }
+
+        .photo-local-toggle {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+        }
+
+        .photo-local-toggle .switch {
+            width: 34px;
+            height: 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            position: relative;
+        }
+
+        .photo-local-toggle .switch::after {
             content: "";
             position: absolute;
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle, var(--glow-color) 0%, rgba(255, 196, 120, 0) 70%);
-            opacity: 0.85;
+            top: 1px;
+            left: 1px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform 0.3s ease;
         }
 
-        .photo-glow::before {
-            top: 18%;
-            left: 16%;
-        }
-
-        .photo-glow::after {
-            bottom: 20%;
-            right: 14%;
-        }
-
-        [data-theme="dark"] .photo-glow {
-            opacity: 1;
+        .theme-photo.is-night .photo-local-toggle .switch::after {
+            transform: translateX(16px);
         }
 
         .app-text {
@@ -511,9 +657,221 @@
             color: var(--accent);
         }
 
+        .app-text p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        [data-theme="dark"] .app-text p {
+            color: rgba(42, 41, 39, 0.88);
+        }
+
+        .process {
+            background: var(--bg-light);
+        }
+
+        .process h2 {
+            text-align: center;
+            font-size: 2.4rem;
+            margin-bottom: 34px;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .step {
+            padding: 22px;
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .step strong {
+            display: inline-flex;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            background: rgba(166, 138, 100, 0.16);
+            color: #6e5538;
+            margin-bottom: 12px;
+        }
+
+        [data-theme="dark"] .step {
+            background: #242220;
+            border-color: rgba(255, 255, 255, 0.12);
+            color: #f1ede7;
+        }
+
+        [data-theme="dark"] .step p {
+            color: #d3ccbf;
+        }
+
+        .calculator {
+            background: #fff;
+        }
+
+        .calculator-wrap {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 28px;
+        }
+
+        .calc-form {
+            display: grid;
+            gap: 16px;
+        }
+
+        .calc-form label {
+            display: grid;
+            gap: 8px;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        .calc-form input,
+        .calc-form select {
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.14);
+            background: #fff;
+            color: var(--primary);
+        }
+
+        .calc-result {
+            border-radius: 18px;
+            padding: 24px;
+            background: var(--bg-light);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .calc-result strong {
+            display: block;
+            font-size: 1.9rem;
+            margin: 10px 0;
+        }
+
+        [data-theme="dark"] .calculator {
+            background: #141312;
+        }
+
+        [data-theme="dark"] .calc-form input,
+        [data-theme="dark"] .calc-form select {
+            background: #242220;
+            color: #f1ede7;
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        [data-theme="dark"] .calc-result {
+            background: #242220;
+            border-color: rgba(255, 255, 255, 0.12);
+            color: #f1ede7;
+        }
+
+        [data-theme="dark"] .calc-form label,
+        [data-theme="dark"] .calc-result small {
+            color: #cec6b9;
+        }
+
+        .testimonials {
+            background: var(--bg-light);
+        }
+
+        .testimonials h2,
+        .faq h2,
+        .calculator h2 {
+            font-size: 2.4rem;
+            margin-bottom: 26px;
+        }
+
+        .reviews {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .review-card {
+            background: #fff;
+            border-radius: 18px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 22px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .review-card p {
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        [data-theme="dark"] .testimonials {
+            background: #1a1917;
+            color: #f1ede7;
+        }
+
+        [data-theme="dark"] .review-card {
+            background: #242220;
+            border-color: rgba(255, 255, 255, 0.11);
+        }
+
+        [data-theme="dark"] .review-card p {
+            color: #d3ccbf;
+        }
+
+        .faq {
+            background: #fff;
+        }
+
+        .faq-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .faq-item {
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            border-radius: 12px;
+            background: var(--bg-light);
+            overflow: hidden;
+        }
+
+        .faq-item summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            font-weight: 600;
+        }
+
+        .faq-item summary::-webkit-details-marker { display: none; }
+
+        .faq-item p {
+            padding: 0 16px 14px;
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .faq {
+            background: #141312;
+            color: #f1ede7;
+        }
+
+        [data-theme="dark"] .faq-item {
+            background: #242220;
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        [data-theme="dark"] .faq-item p {
+            color: #d3ccbf;
+        }
+
         /* --- Materials Section --- */
         .materials {
             background: #fff;
+        }
+
+        [data-theme="dark"] .materials {
+            background: #191816;
+            color: #f1ede7;
         }
 
         .materials h2 {
@@ -534,6 +892,16 @@
             padding: 30px;
             box-shadow: var(--shadow-card);
             transition: var(--transition);
+        }
+
+        [data-theme="dark"] .materials-card {
+            background: #242220;
+            color: #f1ede7;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        [data-theme="dark"] .materials-card p {
+            color: #d3ccbf;
         }
 
         .materials-card:hover {
@@ -594,11 +962,47 @@
             border-top: 1px solid #eee;
         }
 
+        [data-theme="dark"] footer {
+            color: #bdb6aa;
+            border-top-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .floating-contact {
+            display: none;
+            position: fixed;
+            right: 14px;
+            bottom: 16px;
+            z-index: 500;
+            padding: 12px 16px;
+            border-radius: 999px;
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(135deg, #a68a64, #876b48);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+            font-weight: 600;
+            letter-spacing: 0.4px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .concept, .app-item {
                 grid-template-columns: 1fr;
                 flex-direction: column !important;
+            }
+            .header-actions {
+                gap: 10px;
+            }
+            .response-badge {
+                display: none;
+            }
+            .hero-actions {
+                flex-direction: column;
+            }
+            .trust-grid,
+            .process-steps,
+            .reviews,
+            .calculator-wrap {
+                grid-template-columns: 1fr;
             }
             .app-text {
                 padding: 40px 0 0;
@@ -618,6 +1022,11 @@
             .hero-content h1 {
                 font-size: clamp(2.2rem, 8vw, 3.2rem);
             }
+            .floating-contact {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+            }
         }
     </style>
 </head>
@@ -626,11 +1035,11 @@
     <header class="site-header">
         <div class="logo">PillowPlace</div>
         <div class="header-actions">
-            <div class="theme-labels" aria-hidden="true">
-                <span>☀ День</span>
-                <button class="theme-toggle" type="button" data-theme-toggle aria-label="Переключить тему"></button>
-                <span>🌙 Вечер</span>
-            </div>
+            <span class="response-badge">Ответ менеджера: ~15 минут</span>
+            <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Переключить тему" aria-pressed="false">
+                <span class="theme-icon" id="themeIcon" aria-hidden="true">☀️</span>
+                <span class="dot" aria-hidden="true"></span>
+            </button>
             <nav>
                 <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.7rem;">Консультация</a>
             </nav>
@@ -646,9 +1055,37 @@
         <div class="hero-content reveal">
             <h1>Новая философия вашего пространства</h1>
             <p>Эргономичные подушки-изголовья, созданные для тех, кто ценит эстетику отдыха и здоровье спины.</p>
-            <a href="#about" class="btn">Исследовать коллекцию</a>
+            <div class="hero-actions">
+                <a href="#about" class="btn">Исследовать коллекцию</a>
+                <a href="#calculator" class="btn btn-secondary">Рассчитать стоимость</a>
+            </div>
         </div>
     </section>
+
+    <hr class="section-divider" aria-hidden="true">
+
+    <section class="trust-strip reveal stagger" data-delay="0.05">
+        <div class="trust-grid">
+            <article class="trust-item">
+                <strong>7 лет</strong>
+                <span>средний срок службы изделий</span>
+            </article>
+            <article class="trust-item">
+                <strong>24 мес</strong>
+                <span>официальная гарантия на швы и форму</span>
+            </article>
+            <article class="trust-item">
+                <strong>950+</strong>
+                <span>выполненных индивидуальных заказов</span>
+            </article>
+            <article class="trust-item">
+                <strong>12 дней</strong>
+                <span>средний срок от заявки до готового комплекта</span>
+            </article>
+        </div>
+    </section>
+
+    <hr class="section-divider" aria-hidden="true">
 
     <section id="about" class="concept reveal">
         <div class="concept-text">
@@ -656,13 +1093,13 @@
             <p>Стандартные изголовья часто бывают либо слишком жесткими, либо чисто декоративными. Мы создали продукт, который объединяет архитектурную форму и безупречную мягкость.</p>
             <p>Это не просто подушка. Это функциональный элемент интерьера, который превращает обычное спальное место в зону премиального комфорта.</p>
         </div>
-        <div class="concept-img"></div>
+        <div class="theme-photo theme-photo--concept" data-light="freepik__use-the-uploaded-reference-image-as-the-only-produ__39530.png" data-dark="freepik__use-two-reference-images1-scenemodel-reference-the__39531.png"></div>
     </section>
 
     <section class="features reveal">
         <div class="container">
             <h2>Инженерия комфорта</h2>
-            <div class="grid">
+            <div class="grid stagger">
                 <div class="feature-card">
                     <h3>Поддержка 360°</h3>
                     <p>Анатомическая форма подушки обеспечивает правильную поддержку поясничного и шейного отделов при чтении или работе в постели.</p>
@@ -679,27 +1116,29 @@
         </div>
     </section>
 
+    <hr class="section-divider" aria-hidden="true">
+
+    <section class="process reveal" id="process">
+        <div class="container">
+            <h2>Как проходит заказ</h2>
+            <div class="process-steps stagger">
+                <article class="step"><strong>1</strong><h4>Консультация</h4><p>Определяем размеры, стиль и сценарии использования.</p></article>
+                <article class="step"><strong>2</strong><h4>Подбор тканей</h4><p>Показываем палитру и фактуры под ваш интерьер.</p></article>
+                <article class="step"><strong>3</strong><h4>Пошив и контроль</h4><p>Изготавливаем комплект и проверяем посадку швов.</p></article>
+                <article class="step"><strong>4</strong><h4>Доставка и монтаж</h4><p>Привозим, устанавливаем и даем рекомендации по уходу.</p></article>
+            </div>
+        </div>
+    </section>
+
     <section class="applications reveal">
         <div class="container">
             <div class="app-item">
                 <div class="app-media-grid">
-                    <div class="theme-photo" style="--photo-day: url('freepik__use-two-reference-images1-scenemodel-reference-the__39531.png'); --photo-night: url('пробашок1.png');">
-                        <div class="photo-layer day" aria-hidden="true"></div>
-                        <div class="photo-layer night" aria-hidden="true"></div>
-                        <div class="photo-glow" aria-hidden="true"></div>
-                        <button class="photo-toggle" type="button" data-theme-toggle aria-label="Переключить тему для фото">
-                            <span class="is-day">☀ День</span>
-                            <span class="is-night">🌙 Вечер</span>
-                        </button>
+                    <div class="theme-photo" data-light="freepik__use-two-reference-images1-scenemodel-reference-the__39531.png" data-dark="пробашок1.png" data-local-toggle="true" data-initial-mode="day">
                     </div>
-                    <div class="theme-photo" style="--photo-day: url('q15.png'); --photo-night: url('q15.png');">
-                        <div class="photo-layer day" aria-hidden="true"></div>
-                        <div class="photo-layer night" aria-hidden="true"></div>
-                        <div class="photo-glow" aria-hidden="true"></div>
-                        <button class="photo-toggle" type="button" data-theme-toggle aria-label="Переключить тему для фото">
-                            <span class="is-day">☀ День</span>
-                            <span class="is-night">🌙 Вечер</span>
-                        </button>
+                    <div class="theme-photo" data-local-toggle="true" data-initial-mode="day">
+                        <img class="light" src="q15.png" alt="Светлая версия спальни" loading="lazy">
+                        <img class="dark" src="freepik__use-two-reference-images1-scenemodel-reference-the__39531.png" alt="Тёмная версия спальни" loading="lazy">
                     </div>
                 </div>
                 <div class="app-text">
@@ -708,7 +1147,7 @@
                 </div>
             </div>
             <div class="app-item">
-                <div class="app-img" style="background-image: url('https://images.unsplash.com/photo-1567016432779-094069958ad5?auto=format&fit=crop&q=80&w=2080');"></div>
+                <div class="theme-photo" data-light="freepik__use-the-uploaded-reference-image-as-the-only-produ__39530.png" data-dark="q15.png" data-local-toggle="true" data-initial-mode="day"></div>
                 <div class="app-text">
                     <h3>Зона отдыха</h3>
                     <p>Трансформируйте подиумы, ниши или минималистичные диваны. Наши изделия адаптируются под любое пространство, создавая уют там, где его не было.</p>
@@ -717,26 +1156,103 @@
         </div>
     </section>
 
+    <hr class="section-divider" aria-hidden="true">
+
+    <section class="calculator reveal" id="calculator">
+        <div class="container">
+            <h2>Экспресс-калькулятор стоимости</h2>
+            <div class="calculator-wrap">
+                <form class="calc-form" id="priceCalculator">
+                    <label>
+                        Ширина изголовья (см)
+                        <input id="calcWidth" type="range" min="120" max="240" value="160">
+                    </label>
+                    <label>
+                        Высота подушки (см)
+                        <input id="calcHeight" type="range" min="40" max="90" value="60">
+                    </label>
+                    <label>
+                        Тип ткани
+                        <select id="calcFabric">
+                            <option value="1">Рогожка</option>
+                            <option value="1.18">Велюр Premium</option>
+                            <option value="1.32">Eco-linen Pro</option>
+                        </select>
+                    </label>
+                    <label>
+                        Количество подушек
+                        <select id="calcQty">
+                            <option value="1">1</option>
+                            <option value="1.85" selected>2</option>
+                            <option value="2.65">3</option>
+                        </select>
+                    </label>
+                </form>
+                <aside class="calc-result" aria-live="polite">
+                    <small>Ориентировочная стоимость</small>
+                    <strong id="calcPrice">от 0 ₽</strong>
+                    <small id="calcMeta">Ширина 160 см · Высота 60 см · 2 подушки</small>
+                </aside>
+            </div>
+        </div>
+    </section>
+
     <section class="materials reveal">
         <div class="container">
             <h2>Материалы и производство</h2>
-            <div class="materials-grid">
+            <div class="materials-grid stagger">
                 <div class="materials-card">
-                    <h4>Тактильный комфорт</h4>
+                    <h4>✦ Тактильный комфорт</h4>
                     <p>Мягкий велюр и рогожка с плотным плетением сохраняют форму и приятны при ежедневном использовании.</p>
                 </div>
                 <div class="materials-card">
-                    <h4>Easy Clean</h4>
+                    <h4>✦ Easy Clean</h4>
                     <p>Ткани устойчивы к загрязнениям и легко очищаются — идеальны для динамичного городского ритма.</p>
                 </div>
                 <div class="materials-card">
-                    <h4>Стабильная форма</h4>
+                    <h4>✦ Стабильная форма</h4>
                     <p>Эргономичная конструкция держит поддержку спины в нужной зоне и не проседает со временем.</p>
                 </div>
                 <div class="materials-card">
-                    <h4>Точное исполнение</h4>
+                    <h4>✦ Точное исполнение</h4>
                     <p>Каждая деталь выверена по лекалам и усилена скрытыми швами для аккуратного вида.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="section-divider" aria-hidden="true">
+
+    <section class="testimonials reveal">
+        <div class="container">
+            <h2>Отзывы клиентов</h2>
+            <div class="reviews stagger">
+                <article class="review-card">
+                    <p>«За 2 вечера спальня стала ощущаться как номер в бутик-отеле. Очень удобно читать и смотреть кино.»</p>
+                    <strong>— Марина, Москва</strong>
+                </article>
+                <article class="review-card">
+                    <p>«Выбрали ткань под интерьер онлайн, всё пришло точно по размеру. Монтаж занял меньше часа.»</p>
+                    <strong>— Андрей, Санкт-Петербург</strong>
+                </article>
+                <article class="review-card">
+                    <p>«Кот и дети активно используют диван, но чехлы легко чистятся. Вид всё ещё как новый.»</p>
+                    <strong>— Ольга, Казань</strong>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <hr class="section-divider" aria-hidden="true">
+
+    <section class="faq reveal" id="faq">
+        <div class="container">
+            <h2>Частые вопросы</h2>
+            <div class="faq-list">
+                <details class="faq-item"><summary>Сколько длится изготовление?</summary><p>В среднем 10–14 дней в зависимости от объема и выбранной ткани.</p></details>
+                <details class="faq-item"><summary>Можно ли сделать нестандартный размер?</summary><p>Да, работаем по индивидуальным размерам и конфигурациям.</p></details>
+                <details class="faq-item"><summary>Как ухаживать за тканью?</summary><p>Рекомендуем сухую чистку и локальную обработку мягкими средствами без отбеливателей.</p></details>
+                <details class="faq-item"><summary>Есть ли гарантия?</summary><p>Да, 24 месяца на сохранение формы и качество швов.</p></details>
             </div>
         </div>
     </section>
@@ -755,6 +1271,8 @@
         </div>
     </footer>
 
+    <a class="floating-contact" href="#" aria-label="Связаться в WhatsApp">💬 WhatsApp</a>
+
     <script>
         const header = document.querySelector('.site-header');
         const onScroll = () => {
@@ -772,7 +1290,14 @@
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
+                        const delay = Number(entry.target.dataset.delay || 0);
+                        if (delay) {
+                            entry.target.style.transitionDelay = `${delay}s`;
+                        }
                         entry.target.classList.add('is-visible');
+                        entry.target.querySelectorAll('.stagger').forEach((staggerEl) => {
+                            staggerEl.classList.add('is-visible');
+                        });
                         observer.unobserve(entry.target);
                     }
                 });
@@ -782,25 +1307,144 @@
 
         document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-        const themeToggles = document.querySelectorAll('[data-theme-toggle]');
         const root = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
         const storedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        const ensureThemePhotoImages = () => {
+            document.querySelectorAll('.theme-photo').forEach((photo) => {
+                let lightImg = photo.querySelector('img.light');
+                let darkImg = photo.querySelector('img.dark');
+
+                const lightSrc = photo.dataset.light || lightImg?.getAttribute('src') || darkImg?.getAttribute('src');
+                const darkSrc = photo.dataset.dark || darkImg?.getAttribute('src') || lightSrc;
+
+                if (!lightImg && lightSrc) {
+                    lightImg = document.createElement('img');
+                    lightImg.className = 'light';
+                    lightImg.src = lightSrc;
+                    lightImg.alt = photo.dataset.altLight || 'Светлая версия изображения';
+                    lightImg.loading = 'lazy';
+                    photo.prepend(lightImg);
+                }
+
+                if (!darkImg && darkSrc) {
+                    darkImg = document.createElement('img');
+                    darkImg.className = 'dark';
+                    darkImg.src = darkSrc;
+                    darkImg.alt = photo.dataset.altDark || 'Тёмная версия изображения';
+                    darkImg.loading = 'lazy';
+                    photo.append(darkImg);
+                }
+            });
+        };
+
+        const initLocalPhotoToggles = () => {
+            document.querySelectorAll('.theme-photo[data-local-toggle="true"]').forEach((photo) => {
+                photo.classList.add('use-local-theme');
+
+                const initialMode = photo.dataset.initialMode || (root.getAttribute('data-theme') === 'dark' ? 'night' : 'day');
+                photo.classList.toggle('is-night', initialMode === 'night');
+
+                let toggle = photo.querySelector('.photo-local-toggle');
+                if (!toggle) {
+                    toggle = document.createElement('button');
+                    toggle.type = 'button';
+                    toggle.className = 'photo-local-toggle';
+                    toggle.innerHTML = '<span aria-hidden="true">☀️</span><span class="switch" aria-hidden="true"></span><span aria-hidden="true">🌙</span>';
+                    photo.append(toggle);
+                }
+
+                toggle.setAttribute('aria-label', 'Переключить режим этой фотографии');
+                toggle.setAttribute('aria-pressed', String(photo.classList.contains('is-night')));
+
+                toggle.addEventListener('click', () => {
+                    photo.classList.toggle('is-night');
+                    toggle.setAttribute('aria-pressed', String(photo.classList.contains('is-night')));
+                });
+            });
+        };
+
+        const syncThemeIcon = (theme) => {
+            themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+        };
 
         const applyTheme = (theme) => {
             root.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
-            themeToggles.forEach((toggle) => toggle.setAttribute('aria-pressed', theme === 'dark'));
+            themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
+            syncThemeIcon(theme);
         };
+
+        const initCalculator = () => {
+            const widthEl = document.getElementById('calcWidth');
+            const heightEl = document.getElementById('calcHeight');
+            const fabricEl = document.getElementById('calcFabric');
+            const qtyEl = document.getElementById('calcQty');
+            const priceEl = document.getElementById('calcPrice');
+            const metaEl = document.getElementById('calcMeta');
+
+            if (!widthEl || !heightEl || !fabricEl || !qtyEl || !priceEl || !metaEl) {
+                return;
+            }
+
+            const formatRub = (value) => `${Math.round(value).toLocaleString('ru-RU')} ₽`;
+
+            const recalc = () => {
+                const width = Number(widthEl.value);
+                const height = Number(heightEl.value);
+                const fabric = Number(fabricEl.value);
+                const qty = Number(qtyEl.value);
+
+                const base = width * height * 2.15;
+                const min = base * fabric * qty;
+                const max = min * 1.18;
+
+                priceEl.textContent = `от ${formatRub(min)} до ${formatRub(max)}`;
+                metaEl.textContent = `Ширина ${width} см · Высота ${height} см · ${qty === 1 ? '1 подушка' : qty === 1.85 ? '2 подушки' : '3 подушки'}`;
+            };
+
+            [widthEl, heightEl, fabricEl, qtyEl].forEach((control) => control.addEventListener('input', recalc));
+            recalc();
+        };
+
+        const initHeroParallax = () => {
+            const hero = document.querySelector('.hero');
+            const medias = document.querySelectorAll('.hero-media');
+
+            if (!hero || !medias.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                return;
+            }
+
+            hero.addEventListener('mousemove', (event) => {
+                const rect = hero.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width - 0.5;
+                const y = (event.clientY - rect.top) / rect.height - 0.5;
+                medias.forEach((media) => {
+                    media.style.transform = `scale(1.06) translate(${x * 8}px, ${y * 8}px)`;
+                });
+            });
+
+            hero.addEventListener('mouseleave', () => {
+                medias.forEach((media) => {
+                    media.style.transform = 'scale(1.05) translate(0, 0)';
+                });
+            });
+        };
+
+        ensureThemePhotoImages();
+        initLocalPhotoToggles();
+        initCalculator();
+        initHeroParallax();
 
         const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
         applyTheme(initialTheme);
 
-        themeToggles.forEach((toggle) => {
-            toggle.addEventListener('click', () => {
-                const isDark = root.getAttribute('data-theme') === 'dark';
-                applyTheme(isDark ? 'light' : 'dark');
-            });
+        themeToggle.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') === 'dark';
+            applyTheme(isDark ? 'light' : 'dark');
         });
     </script>
 
